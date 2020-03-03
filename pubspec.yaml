@@ -1,10 +1,11 @@
 name: dart_ardour_client
 description: Provides a client library to interact with the Ardour WebSockets Server surface
 version: 0.1.0
-author: Luciano Iam <lucianito@gmail.com>
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  async: ^2.4.0
+  stream_channel: ^2.0.0
   web_socket_channel: ^1.1.0
