@@ -24,7 +24,7 @@ class ArdourClient {
   Uri _uri;
   Stream<Message> _stream;
 
-  ArdourClient({host = '127.0.0.1', port = 9000}) {
+  ArdourClient({host = '127.0.0.1', port = 3818}) {
     this._uri = Uri.parse('ws://$host:$port');
   }
 
@@ -40,6 +40,14 @@ class ArdourClient {
 
   Future<double> getTempo() async {
     return (await _sendAndReceive(Node.TEMPO, [], []))[0];
+  }
+
+  Future<bool> getTransportRoll() async {
+    return (await _sendAndReceive(Node.TRANSPORT_ROLL, [], []))[0];
+  }
+
+  Future<bool> getRecordState() async {
+    return (await _sendAndReceive(Node.RECORD_STATE, [], []))[0];
   }
 
   Future<double> getStripGain(int stripId) async {
@@ -67,6 +75,14 @@ class ArdourClient {
 
   void setTempo(double bpm) {
     this._send(Node.TEMPO, [], [bpm]);
+  }
+
+  void setTransportRoll(bool value) {
+    this._send(Node.TRANSPORT_ROLL, [], [value]);
+  }
+
+  void setRecordState(bool value) {
+    this._send(Node.RECORD_STATE, [], [value]);
   }
 
   void setStripGain(int stripId, double db) {
