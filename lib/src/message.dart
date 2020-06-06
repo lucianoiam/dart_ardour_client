@@ -16,20 +16,20 @@
 import 'dart:convert';
 
 class Node {
-  static const TEMPO = Node('tempo');
-  static const POSITION_TIME = Node('position_time');
-  static const TRANSPORT_ROLL = Node('transport_roll');
-  static const RECORD_STATE = Node('record_state');
-  static const STRIP_DESCRIPTION = Node('strip_description');
-  static const STRIP_METER = Node('strip_meter');
-  static const STRIP_GAIN = Node('strip_gain');
-  static const STRIP_PAN = Node('strip_pan');
-  static const STRIP_MUTE = Node('strip_mute');
-  static const STRIP_PLUGIN_DESCRIPTION = Node('strip_plugin_description');
-  static const STRIP_PLUGIN_ENABLE = Node('strip_plugin_enable');
+  static const STRIP_DESCRIPTION              = Node('strip_description');
+  static const STRIP_METER                    = Node('strip_meter');
+  static const STRIP_GAIN                     = Node('strip_gain');
+  static const STRIP_PAN                      = Node('strip_pan');
+  static const STRIP_MUTE                     = Node('strip_mute');
+  static const STRIP_PLUGIN_DESCRIPTION       = Node('strip_plugin_description');
+  static const STRIP_PLUGIN_ENABLE            = Node('strip_plugin_enable');
   static const STRUP_PLUGIN_PARAM_DESCRIPTION = Node('strip_plugin_param_description');
-  static const STRIP_PLUGIN_PARAM_VALUE = Node('strip_plugin_param_value');
-
+  static const STRIP_PLUGIN_PARAM_VALUE       = Node('strip_plugin_param_value');
+  static const TRANSPORT_TEMPO                = Node('transport_tempo');
+  static const TRANSPORT_TIME                 = Node('transport_time');
+  static const TRANSPORT_ROLL                 = Node('transport_roll');
+  static const TRANSPORT_RECORD               = Node('transport_record');
+  
   final String _string;
 
   const Node(this._string);

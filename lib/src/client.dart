@@ -38,51 +38,39 @@ class ArdourClient {
     return this;
   }
 
-  Future<double> getTempo() async {
-    return (await _sendAndReceive(Node.TEMPO, [], []))[0];
-  }
-
-  Future<bool> getTransportRoll() async {
-    return (await _sendAndReceive(Node.TRANSPORT_ROLL, [], []))[0];
-  }
-
-  Future<bool> getRecordState() async {
-    return (await _sendAndReceive(Node.RECORD_STATE, [], []))[0];
-  }
-
   Future<double> getStripGain(int stripId) async {
-    return (await _sendAndReceive(Node.STRIP_GAIN, [stripId], []))[0];
+    return await _sendAndReceiveSingle(Node.STRIP_GAIN, [stripId], []);
   }
 
   Future<double> getStripPan(int stripId) async {
-    return (await _sendAndReceive(Node.STRIP_PAN, [stripId], []))[0];
+    return await _sendAndReceiveSingle(Node.STRIP_PAN, [stripId], []);
   }
 
   Future<bool> getStripMute(int stripId) async {
-    return (await _sendAndReceive(Node.STRIP_MUTE, [stripId], []))[0];
+    return await _sendAndReceiveSingle(Node.STRIP_MUTE, [stripId], []);
   }
 
   Future<bool> getStripPluginEnable(int stripId, int pluginId) async {
-    return (await _sendAndReceive(
-        Node.STRIP_PLUGIN_ENABLE, [stripId, pluginId], []))[0];
+    return await _sendAndReceiveSingle(
+        Node.STRIP_PLUGIN_ENABLE, [stripId, pluginId], []);
   }
 
   Future<dynamic> getStripPluginParamValue(
       int stripId, int pluginId, int paramId) async {
-    return (await _sendAndReceive(
-        Node.STRIP_PLUGIN_PARAM_VALUE, [stripId, pluginId, paramId], []))[0];
+    return await _sendAndReceiveSingle(
+        Node.STRIP_PLUGIN_PARAM_VALUE, [stripId, pluginId, paramId], []);
   }
 
-  void setTempo(double bpm) {
-    this._send(Node.TEMPO, [], [bpm]);
+  Future<double> getTempo() async {
+    return await _sendAndReceiveSingle(Node.TRANSPORT_TEMPO, [], []);
   }
 
-  void setTransportRoll(bool value) {
-    this._send(Node.TRANSPORT_ROLL, [], [value]);
+  Future<bool> getTransportRoll() async {
+    return await _sendAndReceiveSingle(Node.TRANSPORT_ROLL, [], []);
   }
 
-  void setRecordState(bool value) {
-    this._send(Node.RECORD_STATE, [], [value]);
+  Future<bool> getRecordState() async {
+    return await _sendAndReceiveSingle(Node.TRANSPORT_RECORD, [], []);
   }
 
   void setStripGain(int stripId, double db) {
@@ -107,6 +95,18 @@ class ArdourClient {
         Node.STRIP_PLUGIN_PARAM_VALUE, [stripId, pluginId, paramId], [value]);
   }
 
+  void setTempo(double bpm) {
+    this._send(Node.TRANSPORT_TEMPO, [], [bpm]);
+  }
+
+  void setTransportRoll(bool value) {
+    this._send(Node.TRANSPORT_ROLL, [], [value]);
+  }
+
+  void setRecordState(bool value) {
+    this._send(Node.TRANSPORT_RECORD, [], [value]);
+  }
+
   Message _send(Node node, List<int> addr, List<dynamic> val) {
     final msg = Message(node, addr, val);
     this._channel.sink.add(msg);
@@ -119,5 +119,10 @@ class ArdourClient {
     final respMsg =
         await this.stream.firstWhere((msg) => msg.nodeAddrHash() == hash);
     return respMsg.val;
+  }
+
+  Future<dynamic> _sendAndReceiveSingle(
+      Node node, List<int> addr, List<dynamic> val) async {
+    return (await this._sendAndReceive(node, addr, val))[0];
   }
 }
